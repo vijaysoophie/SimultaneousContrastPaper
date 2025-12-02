@@ -1,0 +1,4 @@
+Linear Fit Results:
+Δ=-10.00: slope=0.991, intercept=-2.756, r=1.000
+Δ=0.00: slope=1.024, intercept=-0.623, r=0.999
+Δ=10.00: slope=1.047, intercept=0.769, r=1.000

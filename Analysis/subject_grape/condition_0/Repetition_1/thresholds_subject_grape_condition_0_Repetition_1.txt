@@ -1,0 +1,2 @@
+standard	background	threshold_50	threshold_76	width
+70.0000	70.0000	70.8578	74.1000	15.0887

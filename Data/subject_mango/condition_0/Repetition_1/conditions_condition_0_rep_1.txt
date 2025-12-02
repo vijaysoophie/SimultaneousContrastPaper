@@ -1,0 +1,10 @@
+Parameters used to generate the output file:
+Reference Color rgb: [(70, 70, 70)]
+Comparison Colors rgb: [(60, 60, 60), (62, 62, 62), (64, 64, 64), (66, 66, 66), (68, 68, 68), (70, 70, 70), (72, 72, 72), (74, 74, 74), (76, 76, 76), (78, 78, 78), (80, 80, 80)]
+Background Colors rgb: [(70, 70, 70)]
+Fixed Background rgb: [(70, 70, 70)]
+Number of Repetitions: 30
+Output File (Gamma Corrected): /Users/vsingh1/Documents/BackgroundEffect/Data/subject_mango/condition_0/Repetition_1/trials_condition_0_rep_1_gamma_corrected.txt
+Output File (Linear RGB): /Users/vsingh1/Documents/BackgroundEffect/Data/subject_mango/condition_0/Repetition_1/trials_condition_0_rep_1.txt
+Condition File: conditions_condition_0_rep_1.txt
+Base Folder: /Users/vsingh1/Documents/BackgroundEffect/Data/subject_mango/condition_0/Repetition_1

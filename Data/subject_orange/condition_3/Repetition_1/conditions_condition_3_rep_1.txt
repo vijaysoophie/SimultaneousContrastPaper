@@ -1,0 +1,10 @@
+Parameters used to generate the output file:
+Reference Color rgb: [(100, 100, 100)]
+Comparison Colors rgb: [(90, 90, 90), (92, 92, 92), (94, 94, 94), (96, 96, 96), (98, 98, 98), (100, 100, 100), (102, 102, 102), (104, 104, 104), (106, 106, 106), (108, 108, 108), (110, 110, 110)]
+Background Colors rgb: [(90, 90, 90), (100, 100, 100), (110, 110, 110)]
+Fixed Background rgb: [(100, 100, 100)]
+Number of Repetitions: 30
+Output File (Gamma Corrected): /Users/vsingh1/Documents/BackgroundEffect/Data/subject_orange/condition_3/Repetition_1/trials_condition_3_rep_1_gamma_corrected.txt
+Output File (Linear RGB): /Users/vsingh1/Documents/BackgroundEffect/Data/subject_orange/condition_3/Repetition_1/trials_condition_3_rep_1.txt
+Condition File: conditions_condition_3_rep_1.txt
+Base Folder: /Users/vsingh1/Documents/BackgroundEffect/Data/subject_orange/condition_3/Repetition_1
