@@ -1,0 +1,4 @@
+standard_rgb	standard_luminance	background_rgb	background_luminance	threshold_50_luminance	threshold_76_luminance	width_luminance
+70.0000	28.9882	60.0000	24.8471	26.7345	28.6652	8.2275
+70.0000	28.9882	70.0000	28.9882	29.2054	30.9485	8.1175
+70.0000	28.9882	80.0000	33.1294	31.5984	33.6389	9.5026

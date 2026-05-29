@@ -1,7 +1,5 @@
-import numpy as np
 import itertools
 import random
-import colorsys
 import os
 import re
 
@@ -204,9 +202,9 @@ def generate_conditions_for_subject(subject_name, base_folder, num_repetitions):
 
 if __name__ == "__main__":
     # Example usage
-    subject_name = input("Enter subject name: ")
+    subject_name = input("Enter subject name (Ex: subject_apple):  ")
 
-    input_exponent_file = "/Users/vsingh1/Documents/CalibrationSet/calibration/calibration_result/calibration_latest/exponent_lastest.txt"
+    input_exponent_file = os.path.join(os.getcwd(), "calibration_latest", "exponent_lastest.txt")
     print("The exponent values for gamma correction is set to the latest calibration result")
 
     # Read exponent values (first part of original read_b_values function)
@@ -223,6 +221,6 @@ if __name__ == "__main__":
     num_repetitions = 1
 
     # Path to base folder
-    base_folder = "/Users/vsingh1/Documents/BackgroundEffect" 
+    base_folder = os.getcwd() 
 
     generate_conditions_for_subject(subject_name, base_folder = base_folder, num_repetitions=num_repetitions)

@@ -4,7 +4,7 @@ import subprocess
 import sys
 
 # Hardcoded configuration
-BASE_FOLDER = "/Users/vsingh1/Documents/BackgroundEffect"  # Base folder path
+BASE_FOLDER = os.getcwd()  # Base folder path
 NUM_REPETITIONS = 1  # Number of repetitions
 CONDITIONS = ["condition_demo","condition_0", "condition_1", "condition_2", "condition_3"]  # List of conditions
 PROJECT_APP_NAME = "Experiment1.app"  # Name of the project app

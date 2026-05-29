@@ -16,10 +16,23 @@ called Repetiton_1, which contains the data.
 
 The subfolder Repetiton_1 contains four files. 
 
-"trials_condition_0_rep_1.txt": Contains the parameters used for this condition
-             and the location of files on host computer.
+1. trials_condition_0_rep_1.txt: Contains the parameters used for this condition 
+and the location of files on host computer.
 
-conditions_condition_0_rep_1.txt: Has the RGB values used in the experiment.
-trials_condition_0_rep_1_gamma_corrected.txt: Has the gamma corrected RGB values used to perfrom the experiment.
-subject_apple_condition_0_Repetition_1.txt: Has the data 
+2. conditions_condition_0_rep_1.txt: Has the RGB values used in the experiment.
 
+3. trials_condition_0_rep_1_gamma_corrected.txt: Has the gamma corrected RGB values 
+used to perform the experiment.
+
+4. subject_apple_condition_0_Repetition_1.txt: Has the subject response data. 
+Each row represents one trial. The rows are organized in the order in which 
+the trials were performed. The columns represent:
+Sort-Index, Expected-Response, Observer-Response, Square-1-RGB, Background-1-RGB, Square-2-RGB, Background-2-RGB
+
+Sort-Index is a pseudo index for the trials. It can be used to sort the data 
+according to the standard and comparison square luminance. This column can be ignored.
+
+Expected-Response is the correct expected response.
+Observer-Response is observer's response.
+
+The other columns contain the input given to Unity in RGBA format.

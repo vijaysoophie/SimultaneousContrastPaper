@@ -55,12 +55,10 @@ import re
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import psignifit as ps
-import psignifit.psigniplot as psp
 
 
 # Constants
-BASE_FOLDER = "/Users/vsingh1/Documents/BackgroundEffect"
+BASE_FOLDER = os.getcwd()
 NUM_REPETITIONS = 1
 CONDITIONS = ["condition_0","condition_1", "condition_2", "condition_3"]
 
@@ -244,10 +242,10 @@ def main():
     
     # If subject not provided as argument, prompt for it
     if args.subject is None:
-        args.subject = input("Please enter the subject name: ").strip()
+        args.subject = input("Please enter the subject name (e.g., subject_apple): ").strip()
         while not args.subject:
             print("Error: Subject name cannot be empty!")
-            args.subject = input("Please enter the subject name: ").strip()
+            args.subject = input("Please enter the subject name (e.g., subject_apple): ").strip()
     
     print(f"\nAnalyzing data for subject: {args.subject}")
     

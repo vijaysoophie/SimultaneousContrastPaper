@@ -1,4 +1,29 @@
-Linear Fit Results:
-Δ=-10.00: slope=0.997, intercept=-4.182, r=0.999
-Δ=0.00: slope=1.007, intercept=0.337, r=1.000
-Δ=10.00: slope=1.049, intercept=2.204, r=1.000
+Linear Fit Results (in luminance units: cd/m²):
+Standard Luminance vs. PSE
+======================================================================
+
+Δ = -4.1 cd/m²:
+  Slope:     0.9836 ± 0.0492
+  Intercept: -1.1587
+  r-value:   0.9988
+  p-value:   3.1801e-02
+  Std Err:   0.0492
+
+Δ = 0.0 cd/m²:
+  Slope:     1.0072 ± 0.0002
+  Intercept: 0.1389
+  r-value:   1.0000
+  p-value:   1.5422e-04
+  Std Err:   0.0002
+
+Δ = 4.1 cd/m²:
+  Slope:     1.0362 ± 0.0219
+  Intercept: 1.3593
+  r-value:   0.9998
+  p-value:   1.3452e-02
+  Std Err:   0.0219
+
+======================================================================
+Note: All values are in cd/m² (luminance units)
+p-value indicates significance of the slope (H0: slope = 0)
+Slope error represents the standard error of the slope estimate
