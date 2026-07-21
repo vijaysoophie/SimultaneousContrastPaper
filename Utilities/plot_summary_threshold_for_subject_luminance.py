@@ -69,6 +69,7 @@ NUM_REPETITIONS = 1  # Added constant for number of repetitions
 # RGB to Luminance conversion
 MAX_RGB = 255
 MAX_LUMINANCE = 105.6  # cd/m^2
+TRANSPARENCY_ALPHA = 160/255 # Transprency alpha factor for background luminance
 
 def rgb_to_luminance(rgb_value):
     """
@@ -100,7 +101,7 @@ BACKGROUND_STYLES = {
 
 def get_user_input():
     """Get subject name and threshold type from user"""
-    subject = input("Enter subject name (e.g., vijay_audio): ").strip()
+    subject = input("Enter subject name (e.g., subject_apple): ").strip()
     while not subject:
         print("Error: Subject name cannot be empty!")
         subject = input("Enter subject name: ").strip()
@@ -292,7 +293,7 @@ def plot_all_conditions(data, threshold_type, subject):
             slope = fit_results[bg_diff]['slope']
             slope_err = fit_results[bg_diff]['slope_std_err']
             # Format the label with slope and error
-            label = f'{bg_diff:.1f}  (m={slope:.2f}±{slope_err:.2f})'
+            label = f'{(bg_diff*TRANSPARENCY_ALPHA):.1f}  (m={slope:.2f}±{slope_err:.2f})'
             legend_labels.append(label)
         else:
             legend_labels.append(f'{bg_diff:.1f}')
@@ -344,7 +345,7 @@ def plot_all_conditions(data, threshold_type, subject):
         f.write("Standard Luminance vs. PSE\n")
         f.write("=" * 70 + "\n\n")
         for diff, result in sorted(fit_results.items()):
-            f.write(f"Δ = {diff:.1f} cd/m²:\n")
+            f.write(f"Δ = {diff*TRANSPARENCY_ALPHA:.1f} cd/m²:\n")
             f.write(f"  Slope:     {result['slope']:.4f} ± {result['slope_std_err']:.4f}\n")
             f.write(f"  Intercept: {result['intercept']:.4f}\n")
             f.write(f"  r-value:   {result['r_value']:.4f}\n")
@@ -372,10 +373,7 @@ def main():
     if threshold_data.empty:
         print("No threshold data found!")
         return
-    
-    print(f"\nLoaded {len(threshold_data)} data points")
-    print(f"Unique background differences: {sorted(threshold_data['background_diff'].unique())}")
-    
+        
     # Plot all conditions together
     plot_all_conditions(threshold_data, threshold_type, subject)
 

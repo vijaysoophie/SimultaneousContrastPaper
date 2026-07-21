@@ -54,6 +54,7 @@ NUM_REPETITIONS = 1
 # RGB to Luminance conversion
 MAX_RGB = 255
 MAX_LUMINANCE = 105.6  # cd/m^2
+TRANSPARENCY_ALPHA = 160/255 # Transprency alpha factor for background luminance
 
 def rgb_to_luminance(rgb_value):
     """Convert RGB value (0-255) to luminance (cd/m^2)"""
@@ -340,7 +341,7 @@ def group_and_analyze_data(data, threshold_type, group_name):
         if bg_diff in fit_results:
             slope = fit_results[bg_diff]['slope']
             slope_err = fit_results[bg_diff]['slope_std_err']
-            label = f'{bg_diff:.1f}  (m={slope:.2f}±{slope_err:.2f})'
+            label = f'{bg_diff*TRANSPARENCY_ALPHA:.1f}  (m={slope:.2f}±{slope_err:.2f})'
             legend_labels.append(label)
         else:
             legend_labels.append(f'{bg_diff:.1f}')

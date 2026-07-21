@@ -69,6 +69,7 @@ CONDITIONS = ["condition_0", "condition_1", "condition_2", "condition_3"]
 # RGB to Luminance conversion
 MAX_RGB = 255
 MAX_LUMINANCE = 105.6  # cd/m^2
+TRANSPARENCY_ALPHA = 160/255 # Transprency alpha factor for background luminance
 
 def rgb_to_luminance(rgb_value):
     """
@@ -199,7 +200,7 @@ def perform_psychometric_analysis(raw_df, output_folder, subject_name, condition
         # Plot with larger markers (size=12) - now using luminance values
         # Simplified legend text - just the numeric value without units
         plt.plot(lightness_vals_lum, n_comp_chsn, '.', 
-                markersize=12, color=color, label=f'{cmp_bkg_val_lum:.1f}')
+                markersize=12, color=color, label=f'{(cmp_bkg_val_lum*TRANSPARENCY_ALPHA):.1f}')
         plt.plot(lightness_vals_fine_lum, y_fit, '-', linewidth=2, color=color)
         
         # Mark threshold points on the curve
@@ -233,7 +234,7 @@ def perform_psychometric_analysis(raw_df, output_folder, subject_name, condition
     #plt.ylabel(f'Number Comparison Chosen (N = {n_trials_per_comp_level})', fontsize=14)
     plt.ylabel(f'Number Comparison Chosen\n(N = {n_trials_per_comp_level})', fontsize=14)
     #plt.title(f'Standard Lightness = {std_lightness_rgb}, Standard Background = {std_bkg_val_rgb}', fontsize=14)
-    plt.title(f'$L_s$ = {std_lightness_lum:.1f} cd/m², $B_s$ = {std_bkg_val_lum:.1f} cd/m²', fontsize=14)
+    plt.title(f'$L_s$ = {std_lightness_lum:.1f} cd/m², $B_s$ = {(std_bkg_val_lum*TRANSPARENCY_ALPHA):.1f} cd/m²', fontsize=14)
     plt.tight_layout()
     
     # Save the figure with subject name in filename

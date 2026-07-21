@@ -71,6 +71,7 @@ CONDITIONS = ["condition_1", "condition_2", "condition_3"]
 # RGB to Luminance conversion
 MAX_RGB = 255
 MAX_LUMINANCE = 105.6  # cd/m^2
+TRANSPARENCY_ALPHA = 160/255 # Transprency alpha factor for background luminance
 
 def rgb_to_luminance(rgb_value):
     """
@@ -235,7 +236,7 @@ def perform_psychometric_analysis(raw_df, output_folder, group_name, condition_n
             plt.errorbar(lightness_vals_lum, n_comp_chsn_mean, yerr=n_comp_chsn_sem,
                         fmt='o', markersize=8, capsize=4, capthick=1, elinewidth=1,
                         color=color, ecolor=color, alpha=0.7,
-                        label=f'{cmp_bkg_val_lum:.1f}')
+                        label=f'{cmp_bkg_val_lum*TRANSPARENCY_ALPHA:.1f}')
         else:
             # Fallback if no SEM available
             plt.plot(lightness_vals_lum, n_comp_chsn_mean, 'o', 
@@ -255,7 +256,7 @@ def perform_psychometric_analysis(raw_df, output_folder, group_name, condition_n
         
         plt.xlabel('Comparison Luminance (cd/m²)', fontsize=14)
         plt.ylabel(f'Number Comparison Chosen\n(N = {n_trials_per_comp_level})', fontsize=14)
-        plt.title(f'$L_s$ = {std_lightness_lum:.1f} cd/m², $B_s$ = {std_bkg_val_lum:.1f} cd/m²', fontsize=12)
+        plt.title(f'$L_s$ = {std_lightness_lum:.1f} cd/m², $B_s$ = {std_bkg_val_lum*TRANSPARENCY_ALPHA:.1f} cd/m²', fontsize=12)
         plt.tight_layout()
         
         # Save the figure with group name in filename

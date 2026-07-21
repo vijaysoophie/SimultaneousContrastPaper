@@ -2,7 +2,7 @@ Linear Fit Results (in luminance units: cd/m²):
 Standard Luminance vs. PSE
 ======================================================================
 
-Δ = -4.1 cd/m²:
+Δ = -2.6 cd/m²:
   Slope:     0.9927 ± 0.0254
   Intercept: -2.1743
   r-value:   0.9997
@@ -16,7 +16,7 @@ Standard Luminance vs. PSE
   p-value:   7.9492e-04
   Std Err:   0.0013
 
-Δ = 4.1 cd/m²:
+Δ = 2.6 cd/m²:
   Slope:     1.0069 ± 0.0014
   Intercept: 2.8079
   r-value:   1.0000
