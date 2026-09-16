@@ -1,0 +1,32 @@
+Contextual PSE shift in the first and second half of each condition
+======================================================================
+
+Subjects: subject_cherry, subject_apple, subject_grape, subject_orange, subject_peach, subject_pineapple
+Conditions: condition_1, condition_2, condition_3
+Comparison trials analyzed: 17280
+
+The contextual shift is the PSE for a given comparison background minus
+the PSE for the equal-background condition measured in the same half, so
+any general drift of the observer's criterion is removed. Values are in
+cd/m². A reduction of the shift in the second half would be expected if
+luminance-based feedback moved responses towards physical luminance.
+
+Comparison background -2.6 cd/m² relative to the standard background:
+  First half:   -2.279 cd/m²
+  Second half:  -2.164 cd/m²
+  Change:       +0.115 cd/m²
+  Paired t(17) = 0.59, p = 0.560, n = 18 observer by block cells
+
+Comparison background +2.6 cd/m² relative to the standard background:
+  First half:   +1.654 cd/m²
+  Second half:  +2.012 cd/m²
+  Change:       +0.358 cd/m²
+  Paired t(17) = 1.78, p = 0.093, n = 18 observer by block cells
+
+Equal-background PSE (check for a general drift of the criterion):
+  First half:   29.472 cd/m²
+  Second half:  29.393 cd/m²
+  Paired t(17) = 0.58, p = 0.567
+
+Note: splitting each condition halves the number of trials per comparison
+level, so the per-half PSEs are noisier than those reported in Table 2.

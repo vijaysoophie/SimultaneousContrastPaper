@@ -3,27 +3,35 @@ Standard Luminance vs. PSE
 ======================================================================
 
 Δ = -2.6 cd/m²:
-  Slope:     0.9927 ± 0.0254
-  Intercept: -2.1743
-  r-value:   0.9997
-  p-value:   1.6300e-02
-  Std Err:   0.0254
+  Slope:         0.9927 ± 0.0254
+  95% CI:        [0.6697, 1.3157]
+  p (slope = 1): 0.8221
+  p (slope = 0): 1.6300e-02
+  Intercept:     -2.1743 ± 0.7808
+  r-value:       0.9997
 
 Δ = 0.0 cd/m²:
-  Slope:     1.0067 ± 0.0013
-  Intercept: -0.0698
-  r-value:   1.0000
-  p-value:   7.9492e-04
-  Std Err:   0.0013
+  Slope:         1.0067 ± 0.0013
+  95% CI:        [0.9908, 1.0227]
+  p (slope = 1): 0.1175
+  p (slope = 0): 7.9492e-04
+  Intercept:     -0.0698 ± 0.0386
+  r-value:       1.0000
 
 Δ = 2.6 cd/m²:
-  Slope:     1.0069 ± 0.0014
-  Intercept: 2.8079
-  r-value:   1.0000
-  p-value:   8.7415e-04
-  Std Err:   0.0014
+  Slope:         1.0069 ± 0.0014
+  95% CI:        [0.9893, 1.0245]
+  p (slope = 1): 0.1261
+  p (slope = 0): 8.7415e-04
+  Intercept:     2.8079 ± 0.0425
+  r-value:       1.0000
 
 ======================================================================
 Note: All values are in cd/m² (luminance units)
-p-value indicates significance of the slope (H0: slope = 0)
-Slope error represents the standard error of the slope estimate
+The additive model predicts a slope of one, so p (slope = 1) is the
+relevant test; p (slope = 0) is retained for reference only
+Slope and intercept errors are the standard errors of the estimates
+Background differences are reported with the transparency factor applied,
+matching Table 1 of the manuscript and the plot legend
+With three standard levels each fit has one degree of freedom, so the
+confidence intervals are wide and r-values are close to one by construction

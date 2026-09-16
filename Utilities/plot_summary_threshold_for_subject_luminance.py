@@ -59,7 +59,7 @@ import glob
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.stats import linregress
+from scipy.stats import linregress, t
 
 # Constants
 BASE_FOLDER = os.getcwd()
@@ -263,8 +263,21 @@ def plot_all_conditions(data, threshold_type, subject):
             continue
             
         # Perform linear regression and get p-value
-        slope, intercept, r_value, p_value, std_err = linregress(x_clean, y_clean)
-        print(f"Slope: {slope:.3f} ± {std_err:.3f}, Intercept: {intercept:.3f}, r: {r_value:.3f}, p: {p_value:.4f}")
+        reg = linregress(x_clean, y_clean)
+        slope, intercept = reg.slope, reg.intercept
+        r_value, p_value, std_err = reg.rvalue, reg.pvalue, reg.stderr
+        intercept_std_err = reg.intercept_stderr
+
+        # The additive model predicts a slope of one, so test the slope against one
+        # as well as against zero, and report its 95% confidence interval
+        dof = len(x_clean) - 2
+        t_crit = t.ppf(0.975, df=dof)
+        ci_slope = (slope - t_crit*std_err, slope + t_crit*std_err)
+        p_value_slope_one = 2 * (1 - t.cdf(abs((slope - 1)/std_err), df=dof))
+
+        print(f"Slope: {slope:.3f} ± {std_err:.3f}, 95% CI [{ci_slope[0]:.3f}, {ci_slope[1]:.3f}], "
+              f"Intercept: {intercept:.3f} ± {intercept_std_err:.3f}, r: {r_value:.3f}, "
+              f"p(slope=1): {p_value_slope_one:.4f}, p(slope=0): {p_value:.4f}")
         
         x_fit = np.linspace(min(x_clean), max(x_clean), 100)
         y_fit = slope * x_fit + intercept
@@ -275,7 +288,10 @@ def plot_all_conditions(data, threshold_type, subject):
         fit_results[bg_diff] = {
             'slope': slope,
             'slope_std_err': std_err,  # Added standard error for slope
+            'ci_slope': ci_slope,
+            'p_value_slope_one': p_value_slope_one,
             'intercept': intercept,
+            'intercept_std_err': intercept_std_err,
             'r_value': r_value,
             'p_value': p_value,
             'std_err': std_err
@@ -346,16 +362,22 @@ def plot_all_conditions(data, threshold_type, subject):
         f.write("=" * 70 + "\n\n")
         for diff, result in sorted(fit_results.items()):
             f.write(f"Δ = {diff*TRANSPARENCY_ALPHA:.1f} cd/m²:\n")
-            f.write(f"  Slope:     {result['slope']:.4f} ± {result['slope_std_err']:.4f}\n")
-            f.write(f"  Intercept: {result['intercept']:.4f}\n")
-            f.write(f"  r-value:   {result['r_value']:.4f}\n")
-            f.write(f"  p-value:   {result['p_value']:.4e}\n")
-            f.write(f"  Std Err:   {result['std_err']:.4f}\n")
+            f.write(f"  Slope:         {result['slope']:.4f} ± {result['slope_std_err']:.4f}\n")
+            f.write(f"  95% CI:        [{result['ci_slope'][0]:.4f}, {result['ci_slope'][1]:.4f}]\n")
+            f.write(f"  p (slope = 1): {result['p_value_slope_one']:.4f}\n")
+            f.write(f"  p (slope = 0): {result['p_value']:.4e}\n")
+            f.write(f"  Intercept:     {result['intercept']:.4f} ± {result['intercept_std_err']:.4f}\n")
+            f.write(f"  r-value:       {result['r_value']:.4f}\n")
             f.write("\n")
         f.write("=" * 70 + "\n")
         f.write("Note: All values are in cd/m² (luminance units)\n")
-        f.write("p-value indicates significance of the slope (H0: slope = 0)\n")
-        f.write("Slope error represents the standard error of the slope estimate\n")
+        f.write("The additive model predicts a slope of one, so p (slope = 1) is the\n")
+        f.write("relevant test; p (slope = 0) is retained for reference only\n")
+        f.write("Slope and intercept errors are the standard errors of the estimates\n")
+        f.write("Background differences are reported with the transparency factor applied,\n")
+        f.write("matching Table 1 of the manuscript and the plot legend\n")
+        f.write("With three standard levels each fit has one degree of freedom, so the\n")
+        f.write("confidence intervals are wide and r-values are close to one by construction\n")
     
     print(f"Saved fit results to {fit_results_file}")
     plt.close()

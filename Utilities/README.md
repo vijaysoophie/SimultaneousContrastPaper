@@ -109,6 +109,55 @@ subject_apple, subject_cherry, subject_grape, subject_orange, subject_peach, sub
 Enter a name for this group (e.g., 'experimental_group'): mean_threshold
 
 
+7.	analyze_pse_drift_over_trials.py
+Tests whether the contextual shift in the point of subjective equality changes
+over the course of a condition. Observers received trial-by-trial feedback
+defined by physical luminance, which could in principle move responses towards
+physical luminance as a condition progresses. This script works from the raw
+trial files rather than the fitted thresholds. It splits the trials of each
+observer x block x background cell at their median presentation order, fits a
+cumulative Gaussian to each half, and expresses the contextual effect as the
+difference from the equal-background PSE measured in the same half, so that any
+general drift of the observer's criterion is removed. The two halves are then
+compared with a paired t-test.
+
+Usage: python3 Utilities/analyze_pse_drift_over_trials.py
+
+Will ask for subject_names comma separated
+For the six subject used in the paper, when prompted enter:
+subject_apple, subject_cherry, subject_grape, subject_orange, subject_peach, subject_pineapple
+
+Enter a name for this group (e.g., 'experimental_group'): mean_threshold
+
+Output: Analysis/mean_threshold/pse_drift_first_vs_second_half.txt (summary and
+tests) and Analysis/mean_threshold/pse_drift_cell_values.txt (per-cell PSEs).
+The summary reproduces the values reported in the Methods section of the paper.
+
+
+8.	compare_jnd_across_backgrounds.py
+Compares the just noticeable difference across the three comparison background
+conditions. A purely additive contextual gain leaves the width of the
+psychometric function unchanged, whereas a multiplicative gain does not, so the
+JND provides a check on alpha that does not depend on the point of subjective
+equality. The script reads the threshold files written by
+plot_summary_threshold_for_subject_luminance.py, takes the JND as the difference
+between the 76% and the 50% points, and compares the three background conditions
+with a Friedman test and with paired comparisons against the equal-background
+condition.
+
+Usage: python3 Utilities/compare_jnd_across_backgrounds.py
+
+Will ask for subject_names comma separated
+For the six subject used in the paper, when prompted enter:
+subject_apple, subject_cherry, subject_grape, subject_orange, subject_peach, subject_pineapple
+
+Enter a name for this group (e.g., 'experimental_group'): mean_threshold
+
+Output: Analysis/mean_threshold/jnd_across_backgrounds.txt (summary and tests)
+and Analysis/mean_threshold/jnd_cell_values.txt (per-cell JND values). The
+summary reproduces the values reported in the Results section of the paper.
+
+
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 Scripts to run the experiment.

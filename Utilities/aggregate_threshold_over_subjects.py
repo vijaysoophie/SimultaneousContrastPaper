@@ -256,11 +256,16 @@ def group_and_analyze_data(data, threshold_type, group_name):
         # Use inverse of variance (SD^2) for weights
         # This gives more weight to points with smaller variance
         weights = 1 / (bg_data['std'].values**2 + 1e-10)  # Add small constant to avoid division by zero
-        
+
+        # np.polyfit applies its w argument to the residuals rather than to the
+        # squared residuals, so it must be passed 1/SD to realise inverse-variance
+        # (1/SD^2) weighting. Passing 1/SD^2 directly weights the fit by 1/SD^4.
+        polyfit_weights = np.sqrt(weights)
+
         # Perform weighted linear regression
         try:
             # Use numpy's polyfit with weights
-            slope, intercept = np.polyfit(x, y, 1, w=weights)
+            slope, intercept = np.polyfit(x, y, 1, w=polyfit_weights)
             
             # Calculate standard errors for slope and intercept
             n = len(x)
@@ -305,7 +310,14 @@ def group_and_analyze_data(data, threshold_type, group_name):
             mse = np.sum((y - (slope*x + intercept))**2) / (n - 2)
             standard_error_intercept = np.sqrt(mse * (1/n + x_mean**2/ss_xx))
             p_value_intercept = 2 * (1 - t.cdf(abs(intercept/standard_error_intercept), df=n-2))
-        
+
+        # The additive model predicts a slope of one, so test the slope against one
+        # as well as against zero, and report its 95% confidence interval
+        t_crit = t.ppf(0.975, df=n-2)
+        ci_slope = (slope - t_crit*standard_error_slope, slope + t_crit*standard_error_slope)
+        t_stat_slope_one = (slope - 1) / standard_error_slope
+        p_value_slope_one = 2 * (1 - t.cdf(abs(t_stat_slope_one), df=n-2))
+
         # Generate fit line
         x_fit = np.linspace(x.min(), x.max(), 100)
         y_fit = slope * x_fit + intercept
@@ -316,6 +328,8 @@ def group_and_analyze_data(data, threshold_type, group_name):
         fit_results[bg_diff] = {
             'slope': slope,
             'slope_std_err': standard_error_slope,
+            'ci_slope': ci_slope,
+            'p_value_slope_one': p_value_slope_one,
             'intercept': intercept,
             'intercept_std_err': standard_error_intercept,
             'r_value': r_value,
@@ -324,9 +338,9 @@ def group_and_analyze_data(data, threshold_type, group_name):
             'n_points': len(bg_data)
         }
         
-        print(f"\nΔ={bg_diff:.1f} cd/m²:")
-        print(f"  Slope: {slope:.3f} ± {standard_error_slope:.3f}, Intercept: {intercept:.3f} ± {standard_error_intercept:.3f}")
-        print(f"  r = {r_value:.3f}, p(slope) = {p_value_slope:.4e}, p(intercept) = {p_value_intercept:.4e}")
+        print(f"\nΔ={bg_diff*TRANSPARENCY_ALPHA:.1f} cd/m²:")
+        print(f"  Slope: {slope:.3f} ± {standard_error_slope:.3f}, 95% CI [{ci_slope[0]:.3f}, {ci_slope[1]:.3f}], Intercept: {intercept:.3f} ± {standard_error_intercept:.3f}")
+        print(f"  r = {r_value:.3f}, p(slope=1) = {p_value_slope_one:.4f}, p(slope=0) = {p_value_slope:.4e}, p(intercept) = {p_value_intercept:.4e}")
         print(f"  Based on {len(bg_data)} points from {bg_data['count'].iloc[0]} subjects")
     
     # Format plot
@@ -391,14 +405,19 @@ def group_and_analyze_data(data, threshold_type, group_name):
     # Save grouped data (including both SD and SEM for reference)
     data_filename = f"grouped_data_{threshold_type}.txt"
     data_path = os.path.join(output_dir, data_filename)
-    grouped.to_csv(data_path, sep='\t', index=False, float_format='%.4f')
+    # Report the background difference on the same luminance scale used in the
+    # plot legend and in Table 1 of the manuscript, i.e. with the background
+    # transparency factor applied
+    grouped_out = grouped.copy()
+    grouped_out['background_diff'] = grouped_out['background_diff'] * TRANSPARENCY_ALPHA
+    grouped_out.to_csv(data_path, sep='\t', index=False, float_format='%.4f')
     print(f"Saved grouped data to {data_path}")
     
     # Save fit results with slope and intercept errors
     results_filename = f"fit_results_{threshold_type}_grouped.txt"
     results_path = os.path.join(output_dir, results_filename)
     with open(results_path, 'w') as f:
-        f.write("Weighted Linear Regression Results (using SD for weights)\n")
+        f.write("Weighted Linear Regression Results (inverse-variance, 1/SD^2, weights)\n")
         f.write("=======================================================\n\n")
         f.write(f"Group: {group_name}\n")
         f.write(f"Threshold type: {threshold_type}\n")
@@ -407,18 +426,27 @@ def group_and_analyze_data(data, threshold_type, group_name):
         
         for bg_diff in sorted(fit_results.keys()):
             r = fit_results[bg_diff]
-            f.write(f"Δ = {bg_diff:.1f} cd/m²:\n")
-            f.write(f"  Slope:     {r['slope']:.4f} ± {r['slope_std_err']:.4f} cd/m² per cd/m² (p = {r['p_value_slope']:.4e})\n")
-            f.write(f"  Intercept: {r['intercept']:.4f} ± {r['intercept_std_err']:.4f} cd/m² (p = {r['p_value_intercept']:.4e})\n")
-            f.write(f"  r-value:   {r['r_value']:.4f}\n")
-            f.write(f"  N points:  {r['n_points']}\n\n")
+            # Report the background difference with the transparency factor applied
+            f.write(f"Δ = {bg_diff*TRANSPARENCY_ALPHA:.1f} cd/m²:\n")
+            f.write(f"  Slope:         {r['slope']:.4f} ± {r['slope_std_err']:.4f} cd/m² per cd/m²\n")
+            f.write(f"  95% CI:        [{r['ci_slope'][0]:.4f}, {r['ci_slope'][1]:.4f}]\n")
+            f.write(f"  p (slope = 1): {r['p_value_slope_one']:.4f}\n")
+            f.write(f"  p (slope = 0): {r['p_value_slope']:.4e}\n")
+            f.write(f"  Intercept:     {r['intercept']:.4f} ± {r['intercept_std_err']:.4f} cd/m² (p = {r['p_value_intercept']:.4e})\n")
+            f.write(f"  r-value:       {r['r_value']:.4f}\n")
+            f.write(f"  N points:      {r['n_points']}\n\n")
         
         f.write("\nNotes:\n")
         f.write("  - Error bars in plot show ±1 Standard Deviation (SD)\n")
         f.write("  - Linear regression uses inverse variance weighting (1/SD²)\n")
         f.write("  - SD reflects between-subject variability\n")
         f.write("  - Slope error and intercept error represent standard errors of the estimates\n")
-        f.write("  - p-values test whether slope/intercept are significantly different from zero\n")
+        f.write("  - The additive model predicts a slope of one, so p (slope = 1) is the\n")
+        f.write("    relevant test; p (slope = 0) is retained for reference only\n")
+        f.write("  - Background differences are reported with the transparency factor applied,\n")
+        f.write("    matching Table 1 of the manuscript and the plot legend\n")
+        f.write("  - With three standard levels each fit has one degree of freedom, so the\n")
+        f.write("    confidence intervals are wide and r-values are close to one by construction\n")
     
     print(f"Saved fit results to {results_path}")
     

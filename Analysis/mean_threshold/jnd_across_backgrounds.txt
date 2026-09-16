@@ -1,0 +1,26 @@
+Just noticeable difference across comparison background conditions
+======================================================================
+
+Subjects: subject_cherry, subject_apple, subject_grape, subject_orange, subject_peach, subject_pineapple
+Conditions: condition_1, condition_2, condition_3
+Observer by block cells: 18
+
+The JND is the difference between the 76% and the 50% points of the fitted
+psychometric function. A purely additive contextual gain leaves the width of
+the psychometric function unchanged, so a JND that does not vary with the
+comparison background is consistent with alpha close to one.
+
+JND by comparison background (mean ± SEM over the observer by block cells):
+
+  B_c - B_s = -2.6 cd/m²:  1.99 ± 0.19 cd/m²
+  B_c - B_s = +0.0 cd/m²:  1.87 ± 0.16 cd/m²
+  B_c - B_s = +2.6 cd/m²:  2.03 ± 0.15 cd/m²
+
+Friedman test across the three background conditions: chi-squared(2) = 1.78, p = 0.411
+
+Paired comparisons against the equal-background condition:
+  B_c - B_s = -2.6 cd/m²:  t(17) = 1.25, p = 0.230
+  B_c - B_s = +2.6 cd/m²:  t(17) = 1.56, p = 0.138
+
+Note: this comparison constrains alpha only loosely, so it is reported as a
+consistency check rather than as an independent estimate of alpha.

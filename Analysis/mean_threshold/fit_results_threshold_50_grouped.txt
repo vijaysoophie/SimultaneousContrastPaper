@@ -1,4 +1,4 @@
-Weighted Linear Regression Results (using SD for weights)
+Weighted Linear Regression Results (inverse-variance, 1/SD^2, weights)
 =======================================================
 
 Group: mean_threshold
@@ -7,23 +7,32 @@ Number of subjects: 6
 
 Results by background difference (B_c - B_s):
 
-Δ = -4.1 cd/m²:
-  Slope:     0.9776 ± 0.0338 cd/m² per cd/m² (p = 2.2030e-02)
-  Intercept: -1.2195 ± 1.0405 cd/m² (p = 4.4968e-01)
-  r-value:   0.9994
-  N points:  3
+Δ = -2.6 cd/m²:
+  Slope:         0.9771 ± 0.0337 cd/m² per cd/m²
+  95% CI:        [0.5489, 1.4053]
+  p (slope = 1): 0.6199
+  p (slope = 0): 2.1950e-02
+  Intercept:     -1.1758 ± 1.0362 cd/m² (p = 4.5989e-01)
+  r-value:       0.9994
+  N points:      3
 
 Δ = 0.0 cd/m²:
-  Slope:     1.0047 ± 0.0108 cd/m² per cd/m² (p = 6.8117e-03)
-  Intercept: 0.2100 ± 0.3094 cd/m² (p = 6.2037e-01)
-  r-value:   0.9999
-  N points:  3
+  Slope:         1.0056 ± 0.0107 cd/m² per cd/m²
+  95% CI:        [0.8701, 1.1411]
+  p (slope = 1): 0.6931
+  p (slope = 0): 6.7509e-03
+  Intercept:     0.1752 ± 0.3069 cd/m² (p = 6.6982e-01)
+  r-value:       0.9999
+  N points:      3
 
-Δ = 4.1 cd/m²:
-  Slope:     1.0221 ± 0.0306 cd/m² per cd/m² (p = 1.9031e-02)
-  Intercept: 1.8897 ± 1.0697 cd/m² (p = 3.2793e-01)
-  r-value:   0.9996
-  N points:  3
+Δ = 2.6 cd/m²:
+  Slope:         1.0376 ± 0.0255 cd/m² per cd/m²
+  95% CI:        [0.7137, 1.3614]
+  p (slope = 1): 0.3793
+  p (slope = 0): 1.5634e-02
+  Intercept:     1.3082 ± 0.8920 cd/m² (p = 3.8100e-01)
+  r-value:       0.9997
+  N points:      3
 
 
 Notes:
@@ -31,4 +40,9 @@ Notes:
   - Linear regression uses inverse variance weighting (1/SD²)
   - SD reflects between-subject variability
   - Slope error and intercept error represent standard errors of the estimates
-  - p-values test whether slope/intercept are significantly different from zero
+  - The additive model predicts a slope of one, so p (slope = 1) is the
+    relevant test; p (slope = 0) is retained for reference only
+  - Background differences are reported with the transparency factor applied,
+    matching Table 1 of the manuscript and the plot legend
+  - With three standard levels each fit has one degree of freedom, so the
+    confidence intervals are wide and r-values are close to one by construction
