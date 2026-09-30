@@ -142,8 +142,12 @@ JND provides a check on alpha that does not depend on the point of subjective
 equality. The script reads the threshold files written by
 plot_summary_threshold_for_subject_luminance.py, takes the JND as the difference
 between the 76% and the 50% points, and compares the three background conditions
-with a Friedman test and with paired comparisons against the equal-background
-condition.
+averages the JND over the three standard blocks within each observer, and
+compares the three background conditions across observers with a Friedman test.
+The three standard blocks are repeated observations on the same observers, so
+the observer rather than the observer-by-block cell is the independent unit of
+analysis. The test computed over the individual cells is also reported, for
+reference only.
 
 Usage: python3 Utilities/compare_jnd_across_backgrounds.py
 
@@ -153,9 +157,10 @@ subject_apple, subject_cherry, subject_grape, subject_orange, subject_peach, sub
 
 Enter a name for this group (e.g., 'experimental_group'): mean_threshold
 
-Output: Analysis/mean_threshold/jnd_across_backgrounds.txt (summary and tests)
-and Analysis/mean_threshold/jnd_cell_values.txt (per-cell JND values). The
-summary reproduces the values reported in the Results section of the paper.
+Output: Analysis/mean_threshold/jnd_across_backgrounds.txt (summary and test),
+Analysis/mean_threshold/jnd_observer_values.txt (per-observer JND values) and
+Analysis/mean_threshold/jnd_cell_values.txt (per-cell JND values). The summary
+reproduces the values reported in the Results section of the paper.
 
 
 -------------------------------------------------------------------------------

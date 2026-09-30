@@ -1,0 +1,7 @@
+subject	-10.0000	0.0000	10.0000
+subject_apple	2.3183	2.1686	2.2913
+subject_cherry	1.4396	1.5001	1.4160
+subject_grape	1.7839	1.6727	2.0101
+subject_orange	2.1005	2.0899	1.8988
+subject_peach	1.6474	1.5165	1.7379
+subject_pineapple	2.6398	2.2501	2.8502
